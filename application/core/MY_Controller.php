@@ -12,11 +12,14 @@ class MY_Controller extends CI_Controller {
 		$member_id = $loginId ? $loginId : '0';
 		$uri = $this->uri->uri_string();
 
-		// $this->db->where('tanggal < (NOW() - INTERVAL 48 HOUR)')->delete('log_access2');
-		// $this->db->where('dt_datetime < (NOW() - INTERVAL 24 HOUR)')->delete('proyek_history');
+		$sessLang = $this->session->userdata('bahasa') ? $this->session->userdata('bahasa') : "indonesia";
+		$this->lang->load('language', $sessLang);
+
+		$this->db->where('tanggal < (NOW() - INTERVAL 48 HOUR)')->delete('log_access2');
+		$this->db->where('dt_datetime < (NOW() - INTERVAL 24 HOUR)')->delete('proyek_history');
 
 		if(($uri != 'profile/getMessages') && (strpos($uri,'images/details_open.png') != true) && (strpos($uri,'assets/img/') != true)){
-			// $this->db->insert('log_access2', array('member_id' => $member_id, 'segments' => $uri, 'tanggal' => date("Y-m-d H:i:s")));
+			$this->db->insert('log_access2', array('member_id' => $member_id, 'segments' => $uri, 'tanggal' => date("Y-m-d H:i:s")));
 		}
 	}
 
